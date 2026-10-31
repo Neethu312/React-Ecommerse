@@ -1,14 +1,19 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
+
+import { Routes,Route } from 'react-router'
 
 import './App.css'
 import { HomePage } from './pages/HomePage'
+import { CheckoutPage  } from './pages/CheckoutPage'
 
 function App() {
  
 
   return (
-    <HomePage />
+    <Routes>
+      <Route index element={<HomePage />}></Route>
+      <Route path='checkout' element={<CheckoutPage />} />
+    </Routes>
+    
    
   )
 }
