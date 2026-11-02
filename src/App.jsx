@@ -11,23 +11,24 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get('/api/cart-items?expand=product');
-        setCartItems(response.data);
-      } catch (error) {
-        console.error('Failed to fetch cart items:', error);
-      }
-    };
 
-    fetchCartItems();
+  const loadCart = async () => {
+    try {
+      const response = await axios.get('/api/cart-items?expand=product');
+      setCartItems(response.data);
+    } catch (error) {
+      console.error('Failed to fetch cart items:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadCart();
   }, []);
 
 
   return (
     <Routes>
-      <Route index element={<HomePage cartItems={cartItems} />}></Route>
+      <Route index element={<HomePage cartItems={cartItems} loadCart={loadCart} />}></Route>
       <Route path='checkout' element={<CheckoutPage cartItems={cartItems} />} />
       <Route path='orders' element={<OrdersPage cartItems={cartItems} />} />
       <Route path='tracking' element={<TrackingPage cartItems={cartItems} />} />
