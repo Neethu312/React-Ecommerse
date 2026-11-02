@@ -5,7 +5,7 @@ import { CheckoutHeader } from './CheckoutHeader';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { OrderSummary } from '../OrderSummary';
+import { OrderSummary } from './OrderSummary';
 import { PaymentSummary } from './PaymentSummary';
 
 export function CheckoutPage({ cartItems = [] }) {
@@ -28,7 +28,7 @@ export function CheckoutPage({ cartItems = [] }) {
         <>
             <title>Checkout</title>
             <link rel="icon" href="cart-favicon.png" />
-            <CheckoutHeader />
+            <CheckoutHeader cartItems={cartItems} />
 
             <div className="checkout-page">
                 <div className="page-title">Review your order</div>

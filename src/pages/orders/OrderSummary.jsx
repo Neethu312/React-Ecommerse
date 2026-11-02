@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { formatMoney } from "../utils/money";
-import { DeliveryOptions } from "./Checkout/DeliveryOptions";
+import { formatMoney } from "../../utils/money";
+import { DeliveryOptions } from "../Checkout/DeliveryOptions";
 
 export function OrderSummary({ deliveryOptions = [], cartItems = [] }) {
     return (

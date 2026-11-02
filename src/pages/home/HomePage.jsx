@@ -1,5 +1,5 @@
 import { Header } from '../../components/Header';
-import { ProductsGrid } from '../ProductsGrid';
+import { ProductsGrid } from './ProductsGrid';
 
 import './HomePage.css';
 import axios from 'axios';
