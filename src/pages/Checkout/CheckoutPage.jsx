@@ -14,14 +14,20 @@ export function CheckoutPage({ cartItems = [] }) {
 
 
     useEffect(() => {
-        axios.get('/api/delivery-options?expand=estimatedDeliveryTime')
-            .then((response) => {
-                setDeliveryOptions(response.data);
-            });
-        axios.get('/api/payment-summary')
-            .then((response) => {
-                setPaymentSummary(response.data);
-            });
+        const fetchCheckoutData = async () => {
+            try {
+                const [deliveryOptionsResponse, paymentSummaryResponse] = await Promise.all([
+                    axios.get('/api/delivery-options?expand=estimatedDeliveryTime'),
+                    axios.get('/api/payment-summary')
+                ]);
+                setDeliveryOptions(deliveryOptionsResponse.data);
+                setPaymentSummary(paymentSummaryResponse.data);
+            } catch (error) {
+                console.error('Failed to fetch checkout data:', error);
+            }
+        };
+
+        fetchCheckoutData();
     }, []);
 
     return (

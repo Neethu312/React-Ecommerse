@@ -10,13 +10,17 @@ export function HomePage({ cartItems }) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/products')
-            .then((response) => {
-                setProducts(response.data)
-            })
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('/api/products');
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Failed to fetch products:', error);
+            }
+        };
 
-
-    }, [])
+        fetchProducts();
+    }, []);
     return (
         <>
             <title>Ecommerse Project</title>

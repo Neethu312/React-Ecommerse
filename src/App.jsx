@@ -12,13 +12,17 @@ import { useEffect, useState } from 'react';
 function App() {
   const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
-    axios.get('/api/cart-items?expand=product')
-      .then((response) => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await axios.get('/api/cart-items?expand=product');
+        setCartItems(response.data);
+      } catch (error) {
+        console.error('Failed to fetch cart items:', error);
+      }
+    };
 
-        setCartItems(response.data)
-      })
-
-  }, [])
+    fetchCartItems();
+  }, []);
 
 
   return (

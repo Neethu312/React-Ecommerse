@@ -11,10 +11,16 @@ export function OrdersPage({ cartItems }) {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/orders?expand=products')
-      .then((response) => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('/api/orders?expand=products');
         setOrders(response.data);
-      });
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   return (
