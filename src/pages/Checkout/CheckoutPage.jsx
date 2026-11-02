@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { OrderSummary } from './OrderSummary';
 import { PaymentSummary } from './PaymentSummary';
 
-export function CheckoutPage({ cartItems = [] }) {
+export function CheckoutPage({ cartItems = [], loadCart }) {
     const [deliveryOptions, setDeliveryOptions] = useState([]);
     const [paymentSummary, setPaymentSummary] = useState();
 
@@ -28,7 +28,7 @@ export function CheckoutPage({ cartItems = [] }) {
         };
 
         fetchCheckoutData();
-    }, []);
+    }, [cartItems]);
 
     return (
         <>
@@ -40,7 +40,7 @@ export function CheckoutPage({ cartItems = [] }) {
                 <div className="page-title">Review your order</div>
 
                 <div className="checkout-grid">
-                    <OrderSummary deliveryOptions={deliveryOptions} cartItems={cartItems} />
+                    <OrderSummary deliveryOptions={deliveryOptions} cartItems={cartItems} loadCart={loadCart} />
                     <PaymentSummary paymentSummary={paymentSummary} />
                 </div>
             </div>
