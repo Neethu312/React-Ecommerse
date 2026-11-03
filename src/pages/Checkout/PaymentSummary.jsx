@@ -6,11 +6,13 @@ import { useNavigate } from "react-router";
 export function PaymentSummary({ paymentSummary = null, loadCart }) {
     const navigate = useNavigate();
     const createOrder = async () => {
-        await axios.post('/api/orders');
-        await loadCart();
-        navigate('/orders');
-
-
+        try {
+            await axios.post('/api/orders');
+            await loadCart();
+            navigate('/orders');
+        } catch (error) {
+            console.error('Failed to create order:', error);
+        }
     };
     return (
         <div className="payment-summary">

@@ -10,24 +10,54 @@ import { PaymentSummary } from './PaymentSummary';
 
 export function CheckoutPage({ cartItems = [], loadCart }) {
     const [deliveryOptions, setDeliveryOptions] = useState([]);
-    const [paymentSummary, setPaymentSummary] = useState();
+    const [paymentSummary, setPaymentSummary] = useState(null);
 
-
+    // 1. Fetch delivery options once on initial mount (static configuration)
     useEffect(() => {
-        const fetchCheckoutData = async () => {
+        let isMounted = true;
+
+        const fetchDeliveryOptions = async () => {
             try {
-                const [deliveryOptionsResponse, paymentSummaryResponse] = await Promise.all([
-                    axios.get('/api/delivery-options?expand=estimatedDeliveryTime'),
-                    axios.get('/api/payment-summary')
-                ]);
-                setDeliveryOptions(deliveryOptionsResponse.data);
-                setPaymentSummary(paymentSummaryResponse.data);
+                const response = await axios.get('/api/delivery-options?expand=estimatedDeliveryTime');
+                if (isMounted) {
+                    setDeliveryOptions(response.data);
+                }
             } catch (error) {
-                console.error('Failed to fetch checkout data:', error);
+                if (isMounted) {
+                    console.error('Failed to fetch delivery options:', error);
+                }
             }
         };
 
-        fetchCheckoutData();
+        fetchDeliveryOptions();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    // 2. Fetch payment summary on mount and whenever cartItems change
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchPaymentSummary = async () => {
+            try {
+                const response = await axios.get('/api/payment-summary');
+                if (isMounted) {
+                    setPaymentSummary(response.data);
+                }
+            } catch (error) {
+                if (isMounted) {
+                    console.error('Failed to fetch payment summary:', error);
+                }
+            }
+        };
+
+        fetchPaymentSummary();
+
+        return () => {
+            isMounted = false;
+        };
     }, [cartItems]);
 
     return (
