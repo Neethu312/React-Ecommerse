@@ -68,7 +68,7 @@ export function Product({ product, loadCart }) {
     };
 
     return (
-        <div className="product-container">
+        <div data-testid="product-container" className="product-container">
             <div className="product-image-container">
                 <img className="product-image"
                     src={product.image} />
@@ -123,8 +123,8 @@ export function Product({ product, loadCart }) {
                     status === 'error'
                         ? { backgroundColor: '#dc3545', borderColor: '#dc3545' }
                         : status === 'loading'
-                        ? { opacity: 0.8, cursor: 'not-allowed' }
-                        : {}
+                            ? { opacity: 0.8, cursor: 'not-allowed' }
+                            : {}
                 }
             >
                 {status === 'loading' && 'Adding...'}
